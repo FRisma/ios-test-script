@@ -40,10 +40,21 @@ runTestsForProject() {
 	#sudo xcodebuild -workspace $1.xcworkspace -scheme $scheme build 2>&1 | tee results.txt
 }
 
+# Check if a base path has been supplied
+if [ -z "$1" ]
+then
+	echo "No base path supplied"
+	path="."
+else
+	path=$1
+	echo "Base path $1"
+fi
+
+
 projects=
 
 #Fill projects variable
-getXcodeProjectsFromPath .
+getXcodeProjectsFromPath "$path"
 
 #XcodeTest
 runXcodeTests
