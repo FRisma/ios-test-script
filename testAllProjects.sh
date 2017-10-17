@@ -17,7 +17,7 @@ runXcodeTests() {
 }
 
 getXcodeProjectsFromPath() {
-	echo "iOS projects path: $1"
+	#echo "iOS projects path: $1"
 	projects=( $(find "$1" -name "*.xcodeproj" -type d) )
 }
 
@@ -34,10 +34,13 @@ runTestsForProject() {
 		echo "El proyecto "$1" NO tiene scheme" > /dev/fd/2
 		return
 	fi
-	echo "Esquema del proyecto: $1 --> $scheme"
+	#echo "Esquema del proyecto: $1 --> $scheme"
 
-	#We run the tests
-	#sudo xcodebuild -workspace $1.xcworkspace -scheme $scheme build 2>&1 | tee results.txt
+	#Build the project
+	pwd
+	xcodebuild -workspace "${1%.*}".xcworkspace -scheme $scheme build 2>&1 | tee results.txt
+
+	#Run tests
 }
 
 # Check if a base path has been supplied
